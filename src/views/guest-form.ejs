@@ -1,0 +1,10 @@
+<form action="/guest" method="POST">
+	<input name="susu" type="text" />
+	<input type="submit" value="Go" />
+</form>
+
+<ul>
+<% guestList.forEach(function(guest){ %>
+	<li><%= guest %></li>
+<% }) %>
+</ul>
