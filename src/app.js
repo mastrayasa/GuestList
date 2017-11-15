@@ -1,5 +1,6 @@
 var express = require('express');
 var bodyParser = require('body-parser');
+var database = require('./database');
 var app = express();
 
 
@@ -39,6 +40,34 @@ app.post('/guest',function(re,res){
 	guestList.push(re.body.susu);
 
 	res.redirect('/guest');
+});
+
+
+app.get('/news',function(re,res){
+	 
+	 database.News.findAll()
+	 .then(function(articles){
+	 	var data = { news: articles }
+	 	res.render('news-list',data);
+	 })
+	 .catch(function(err){
+	 	res.send(err);
+	 }); 
+});
+ 
+app.get('/news/:newsId',function(re,res){
+	 console.log(re.params.newsId)
+
+
+	 database.News.findById(re.params.newsId)
+	 .then(function(news){
+	 	
+	 	var data = { news: news }
+	 	res.render('news-detail',data);
+	 })
+	 .catch(function(err){
+	 	res.send(err);
+	 }); 
 });
 
 
