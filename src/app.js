@@ -55,15 +55,43 @@ app.get('/news',function(re,res){
 	 }); 
 });
  
+
+
+app.get('/news/add',function(re,res){
+	 
+	 res.render('news-form');
+});
+
+app.post('/news/add',function(re,res){
+	 
+	 const project = database.News.build({
+	  judul: re.body.judul,
+	  isi: re.body.isi,
+	  tanggal :new Date()
+	});
+
+	 project.save();
+
+
+	 res.redirect('/news');
+});
+
+
 app.get('/news/:newsId',function(re,res){
-	 console.log(re.params.newsId)
+	 
 
 
 	 database.News.findById(re.params.newsId)
 	 .then(function(news){
 	 	
-	 	var data = { news: news }
-	 	res.render('news-detail',data);
+	 	console.log(news)
+
+	 	if(!news){
+	 		var data = { news: news }
+	 		res.render('news-detail',data);
+	 	}else{
+	 		res.send("data tidak ada bos");
+	 	} 
 	 })
 	 .catch(function(err){
 	 	res.send(err);
